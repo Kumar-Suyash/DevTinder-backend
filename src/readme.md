@@ -18,6 +18,14 @@
 
 - Order of the rotes matter a lot "/" --> better Understanding for this route.
 
--Install Postman App create Workspace/Collection > test an API call.
+- Install Postman App create Workspace/Collection > test an API call.
 
 - Write logics to handle all the API call for GET, POST, PUT, PATCH, DELETE and test them on postman.
+
+- Explore routes use of ?, +, (), * in the routes
+
+- Use of regex in routes ex. /a/, /.*fly$/
+
+- Reading the query params in routes
+
+- Reading the dynamin routes
