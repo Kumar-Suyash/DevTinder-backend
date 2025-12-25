@@ -29,3 +29,10 @@
 - Reading the query params in routes
 
 - Reading the dynamin routes
+
+- Create a multiple route handler in the same route
+
+- Understanding of res.send() and next() method
+
+- If we dont use res.send() our postman will stuck and if we use next() in the last route it will 
+  throw an error
