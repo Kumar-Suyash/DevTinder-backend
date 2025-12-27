@@ -1,37 +1,35 @@
 const express = require('express');
-
 const app = express();
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
-//! app.use("/Route" , rH1 , [rH2 , rH3] , rH4)   rH => routeHandler
-//* so for the same route me can handle it with multiple route handler
-//* for this we are using next fxn and we can also pass routes in array its one in the same thing.
+// app.use("/user", userAuth );
 
-app.use(
-    "/user",
-    [(req, res, next) =>{
-    console.log("handling the route user 1!!!")
-    // res.send("Respone 1!!")
-    next();
-},
-    (req, res, next) =>{
-    console.log("handling the route user 2 !!!")
-    // res.send(" 2nd Respone !!")  
-    next();
-},
-    (req, res, next) =>{
-    console.log("handling the route user 3 !!!")
-    // res.send(" 3nd Respone !!")  
-    next();
-},
-    (req, res, next) =>{
-    console.log("handling the route user 4 !!!")
-    res.send(" 4nd Respone !!")  
-    
-}],
-);
+//*for login we don't need authentication
+
+app.post("/user/login", (req, res) =>{
+    res.send("login here...");
+})
+app.get("/user/getData", userAuth, (req, res) => {
+    res.send("All data is feteched ....");
+
+});
 
 
-app.listen(7777,(req, res)=>{
+//* Handle Auth middleware for "/amdin" GET, POST ....REQUEST , 
+
+app.use("/admin", adminAuth);
+
+app.use("/admin/getAllData", (req, res) => {
+
+    res.send(" All Data send");
+
+})
+app.use("/admin/deleteAllData", (req, res) => {
+
+    res.send("Deleted All data");
+})
+
+app.listen(7777, (req, res) => {
     console.log("port is listening on port number 7777");
 })
 

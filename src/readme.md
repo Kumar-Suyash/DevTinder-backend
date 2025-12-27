@@ -36,3 +36,13 @@
 
 - If we dont use res.send() our postman will stuck and if we use next() in the last route it will 
   throw an error
+
+- What is Middleware ? And why do we need it ?
+
+- How express JS handles the request
+
+- Difference between app.use() and app.all() 
+
+- Write a dummy auth middleware for admin .
+
+- Write a dummy auth middleware for all user Routes except "/user/login".  
