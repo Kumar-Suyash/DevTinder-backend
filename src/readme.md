@@ -46,3 +46,7 @@
 - Write a dummy auth middleware for admin .
 
 - Write a dummy auth middleware for all user Routes except "/user/login".  
+
+- Error Handling using  app.use("/",(err, req, res, next) => {});
+- Why me pust this in last ? (For best practice)
+
