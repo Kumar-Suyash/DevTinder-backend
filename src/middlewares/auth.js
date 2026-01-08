@@ -1,4 +1,4 @@
-
+// const uri1 = `mongodb+srv://ksuyash001_db_user:2NQDMSKKaRWEnJtb@cluster1.5pernik.mongodb.net/`
 const adminAuth = (req, res, next) =>{
 
       //* logic for checking if the request is autheriozed or not
