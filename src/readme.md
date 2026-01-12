@@ -76,5 +76,10 @@
 
 - Make your signup API dynamic to recieve data from end user
 
-- 
+- API --> Get user by emailId
+
+- API --> feed API GET /feed - get all the users from the database
+
+
+
 
