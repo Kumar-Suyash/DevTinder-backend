@@ -68,3 +68,13 @@
 
 - Error handling using try catch
 
+-------------------------------------------------------------------------------------------------
+
+- Difference between JS Object vs JSON
+
+- Add express.json middleware to our app to send data dynamically
+
+- Make your signup API dynamic to recieve data from end user
+
+- 
+
