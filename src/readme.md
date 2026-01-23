@@ -80,6 +80,28 @@
 
 - API --> feed API GET /feed - get all the users from the database
 
+- API --> Create a delete user api
 
+- API --> Update the user
+
+- Explore the mongoose Documentation for Model methods
+
+- What are the options in Model.findOneAndUpdate method
+
+- API --> Update the user with emailId
+
+----------------------------------------------------------------------------------------------------
+
+- Explore Schematype options from the mongoose documentation
+
+- Add require, unique, min, minLength, trim, lowercase etc... validation on schema
+
+- Add default type on fields
+
+- Create a custom validate function for gender
+
+- Pass runValidator option in patch controller
+
+- Add timestamps to the userSchema
 
 

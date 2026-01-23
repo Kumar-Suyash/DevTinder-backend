@@ -7,56 +7,91 @@ app.use(express.json());
 
 app.post("/signup", async (req, res) => {
 
-    // //* Creating the new Instance of User Model
+    //* Creating the new Instance of User Model
     const user = new User(req.body);
 
-    try{
+    try {
         await user.save();
-    res.send("User Added Successfully");
-    } catch(err) {
+        res.send("User Added Successfully");
+    } catch (err) {
         res.status(400).send("error in saving the user:" + err.message);
     }
 });
 
 //* Get user by emailId
-app.get("/user", async (req, res)=>{
+app.get("/user", async (req, res) => {
 
     const userEmail = req.body.emailId;
-    try{
-            const users = await User.find({emailId: userEmail});
-            if(users.length === 0){
-                res.status(404).send("User not found");
-            } else {
-                res.send(users);
-            }
+    try {
+        const users = await User.find({ emailId: userEmail });
+        if (users.length === 0) {
+            res.status(404).send("User not found");
+        } else {
+            res.send(users);
+        }
     } catch {
         res.status(400).send("Something went wrong");
     }
-    
-})
 
-//* feed API GET /feed - get all the users from the database
+});
 
-app.get("/feed", async (req, res) => {
+//* Delete user by id
+app.delete("/user", async (req, res) => {
 
-    try{
-        const users = await User.find({});
-        res.send(users);
+    const userId = req.body.userId;
+    try {
+        // const user = await User.findByIdAndDelete({_id: userId});
+        const user = await User.findByIdAndDelete(userId);
+
+        res.send("User deleted successfully");
     } catch {
         res.status(400).send("Something went wrong");
-    } 
+    }
 });
 
+//* Update data of the user
+app.patch("/user", async (req, res) => {
+
+    const userId = req.body.userId;
+    const data = req.body;
+    try{
+        const user = await User.findByIdAndUpdate(
+            {_id: userId},
+            data,
+            {returnDocument: "after", runValidators: true},
+            
+        );
+        console.log(user);
+        res.send("User Updated sucessfully");
+    } catch (err) {
+        res.status(400).send("Upadte Failed:" + err.message);
+    }
+});
+
+//* feed API GET /feed - get all the users from the database
+app.get("/feed", async (req, res) => {
+
+    try {
+        const users = await User.find({});
+        res.send(users);
+    } 
+    catch {
+        res.status(400).send("Something went wrong");
+    }
+});
+
+
+//* Database connection
 connectDB()
     .then(() => {
-    console.log("established connection for DB .....");
+        console.log("established connection for DB .....");
 
-    app.listen(7777, () => {
-    console.log("port is listening on port number 7777");
-});
-})
-.catch((err) => {
-    console.error("failded to connect with db" + err);
-})
+        app.listen(7777, () => {
+            console.log("port is listening on port number 7777");
+        });
+    })
+    .catch((err) => {
+        console.error("failded to connect with db" + err);
+    });
 
 
