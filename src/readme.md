@@ -104,4 +104,8 @@
 
 - Add timestamps to the userSchema
 
+- Add API level validation on patch request & signup post Api
+
+- DATA SANITIZING - Add api validation for each field
+
 
