@@ -108,4 +108,8 @@
 
 - DATA SANITIZING - Add api validation for each field
 
+- Install validator
+
+- Use validator function library for password, email, photo_Url 
+
 
