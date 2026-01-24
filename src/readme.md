@@ -110,6 +110,8 @@
 
 - Install validator
 
-- Use validator function library for password, email, photo_Url 
+- Use validator function library for password, email, photo_Url
+
+- NEVER TRUST req.body
 
 
