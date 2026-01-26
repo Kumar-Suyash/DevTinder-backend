@@ -2,19 +2,56 @@ const express = require('express');
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/user")
+const {validateSignUpData} = require("./utils/validators")
+const bcrypt = require('bcrypt')
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
 
-    //* Creating the new Instance of User Model
-    const user = new User(req.body);
-
     try {
+    //* Validation of data
+    validateSignUpData(req);
+
+    const {firstName, lastName, emailId, password} = req.body;
+
+    //* Encrypt the password
+    const passwordHash = await bcrypt.hash(password, 10)  //* 10 is salt value here
+    console.log(passwordHash);
+
+    //* Creating the new Instance of User Model
+    const user = new User({
+        firstName,
+        lastName,
+        emailId,
+        password: passwordHash,
+    });
+
         await user.save();
         res.send("User Added Successfully");
     } catch (err) {
-        res.status(400).send("error in saving the user:" + err.message);
+        res.status(400).send("ERROR :" + err.message);
+    }
+});
+
+//* login Controller
+app.post("/login", async (req, res) => {
+    try{
+
+        const {emailId, password} = req.body;
+        const user = await User.findOne({emailId: emailId});
+        if(!user) {
+            throw new Error("Invalid Credentials");
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if(isPasswordValid){
+            res.status(200).send("login Successful!!!");
+        } else {
+            throw new Error("Invalid Credentials");
+        }
+    } catch (err) {
+        res.status(400).send("ERROR :" + err.message);
     }
 });
 
