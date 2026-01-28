@@ -122,6 +122,27 @@
 
 - Create a login Api
 
-- Compare passwords and throw errors if email or password is invalid 
+- Compare passwords and throw errors if email or password is invalid
+
+- Install cookies-parser and send dummy cookies to user
+
+- Create GET /profile API and check we get the cookie back
+
+- Install jsonwebtoken
+
+- In /login API, after email and password validation, create a JWT token and send it to user in cookies
+
+- Read the cookies inside your profile API and find the logged in user 
+
+- userAuth middleware
+
+- Add the userAuth middleware in profile and sendConnectionRequest API
+
+- Set the expiry of jwt token and cookies to 7 days
+
+- Create userSchema method getJWT();
+
+- Create userSchema method validatePassword(passwordInputByUser);
+-----------------------------------------------------------------------------------------------------------
 
 

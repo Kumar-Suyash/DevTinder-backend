@@ -1,31 +1,26 @@
-// const uri1 = `mongodb+srv://ksuyash001_db_user:2NQDMSKKaRWEnJtb@cluster1.5pernik.mongodb.net/`
-const adminAuth = (req, res, next) =>{
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const userAuth = async (req, res, next) =>{
+        try {
+        const { token } = req.cookies || {};
+        if (!token) {
+            throw new Error("Invalid token !!!");
+        }
+        //* Validate token
+        const decoded = jwt.verify(token, "Suyash!001$");
+        const { _id } = decoded;
+        const user = await User.findById(_id).select("-password");
 
-      //* logic for checking if the request is autheriozed or not
-
-    const token = "xyz";
-    const isAdminAutheriozed = token === "xyz";
-    if(isAdminAutheriozed){
+        if (!user) {
+            throw new Error("User not found");
+        }
+        req.user = user;
         next();
-    } else {
-        res.status(401).send("Unautherized request");
-    }
-};
-
-const userAuth = (req, res, next) =>{
-
-      //* logic for checking if the request is autheriozed or not
-
-    const token = "xyz";
-    const isAdminAutheriozed = token === "xyz";
-    if(isAdminAutheriozed){
-        next();
-    } else {
-        res.status(401).send("Unautherized request");
-    }
-};
+        } catch (err) {
+            res.status(400).send("ERROR : " + err.message);
+        }
+    };
 
 module.exports = {
-adminAuth,
 userAuth,
 };
