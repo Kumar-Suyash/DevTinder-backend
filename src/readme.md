@@ -158,4 +158,12 @@
 
 - Import these routes in app.js
 
+- Create POST /logout API 
+
+- Create PATCH /profile/edit
+
+- Create PATCH /profile/password API => forgot password API
+
+- Validate all the data in every POST PATCH APIs
+
 
