@@ -143,6 +143,19 @@
 - Create userSchema method getJWT();
 
 - Create userSchema method validatePassword(passwordInputByUser);
+
 -----------------------------------------------------------------------------------------------------------
+
+- Create a list of all APIs for DEV-TINDER app
+
+- Group multiple route under respective routers
+
+- Read express documentation for express.Routes
+
+- Create Routes folder for managing auth, profile, request routers
+
+- Create authRoutes, profileRoutes, requestRoutes
+
+- Import these routes in app.js
 
 
