@@ -165,5 +165,3 @@
 - Create PATCH /profile/password API => forgot password API
 
 - Validate all the data in every POST PATCH APIs
-
-
