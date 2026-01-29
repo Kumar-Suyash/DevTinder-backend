@@ -38,41 +38,41 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     }
 });
 
-  //* PATCH /editPassword  controller  ==> forgot Password
-    profileRouter.patch("/profile/password", userAuth, async (req, res) => {
+//* PATCH /editPassword  controller  ==> forgot Password
+profileRouter.patch("/profile/password", userAuth, async (req, res) => {
 
-        try {
-            validateEditPasswordData(req);
+    try {
+        validateEditPasswordData(req);
 
-            const { currentPassword, newPassword } = req.body;
-            const loggedInUser = req.user;
+        const { currentPassword, newPassword } = req.body;
+        const loggedInUser = req.user;
 
-            //* Fetch password explicitly (because it excluded  in userAuth)
-            const userWithPassword = await User.findById(loggedInUser._id).select("+password");
-            if (!userWithPassword) {
-                throw new Error("User not found");
-            }
-
-            //* Verify current password
-            const isPasswordValid = await userWithPassword.validatePassword(currentPassword);
-            if (!isPasswordValid) {
-                throw new Error("Current password is incorrect");
-            }
-
-            //* Hash new password
-            const newPasswordHash = await bcrypt.hash(newPassword, 10);
-
-            //* Update password
-            userWithPassword.password = newPasswordHash;
-            await userWithPassword.save();
-
-            res.status(200).json({
-                message: "Password updated successfully",
-            });
+        //* Fetch password explicitly (because it excluded  in userAuth)
+        const userWithPassword = await User.findById(loggedInUser._id).select("+password");
+        if (!userWithPassword) {
+            throw new Error("User not found");
         }
-        catch (err) {
-            res.status(400).send("ERROR: " + err.message);
+
+        //* Verify current password
+        const isPasswordValid = await userWithPassword.validatePassword(currentPassword);
+        if (!isPasswordValid) {
+            throw new Error("Current password is incorrect");
         }
-    });
+
+        //* Hash new password
+        const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+        //* Update password
+        userWithPassword.password = newPasswordHash;
+        await userWithPassword.save();
+
+        res.status(200).json({
+            message: "Password updated successfully",
+        });
+    }
+    catch (err) {
+        res.status(400).send("ERROR: " + err.message);
+    }
+});
 
 module.exports = profileRouter;
