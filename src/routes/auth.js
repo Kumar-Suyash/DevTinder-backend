@@ -39,7 +39,7 @@ const User = require("../models/user")
             if (!user) {
                 throw new Error("Invalid Credentials");
             }
-            const isPasswordValid = user.validatePassword(password);
+            const isPasswordValid = await user.validatePassword(password);
 
             if (isPasswordValid) {
 

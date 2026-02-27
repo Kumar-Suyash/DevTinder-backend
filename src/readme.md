@@ -165,3 +165,17 @@
 - Create PATCH /profile/password API => forgot password API
 
 - Validate all the data in every POST PATCH APIs
+
+------------------------------------------------------------------------------------------
+
+- Create a Connection request Schema
+
+- Send connection request Api
+
+- Proper Validation of data and handled corner cases in Api
+
+- Schema.pre("save", function() {});  
+
+- Read the article on Compound indexes in mongodb
+    - Why do we need indexes in db.
+    - What is the advantages an disadvantages of creating of indexes in db
