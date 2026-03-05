@@ -1,10 +1,8 @@
 const mongoose = require("mongoose");
 
-const connectDB = async () =>{
-    await mongoose.connect(
-        "mongodb+srv://ksuyash001_db_user:2NQDMSKKaRWEnJtb@cluster1.5pernik.mongodb.net/devTinder"
-    );
-}
+const connectDB = async () => {
+    await mongoose.connect(process.env.DB_CONNECTION_STRING);  // env variable
+};
 
-module.exports = connectDB
+module.exports = connectDB;
 

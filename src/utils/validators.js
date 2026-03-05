@@ -1,46 +1,51 @@
 const validator = require("validator");
 
 const validateSignUpData = (req) => {
-    const {firstName, lastName, emailId, password} = req.body;
+    const { firstName, lastName, emailId, password } = req.body;
 
-    if(!firstName || !lastName) {
-        throw new Error("Invalid User Name");
+    if (!firstName || !lastName) {
+        throw new Error("First name and last name are required");
     }
-    else if(!validator.isEmail(emailId)) {
-        throw new Error("Invalid EmailId");
+    if (firstName.length < 4 || firstName.length > 50) {        
+        throw new Error("First name must be between 4 and 50 characters");
     }
-    else if(!validator.isStrongPassword(password)) {
-        throw new Error("Please Enter strong password");
+    if (!validator.isEmail(emailId)) {
+        throw new Error("Invalid email address");
+    }
+    if (!validator.isStrongPassword(password)) {
+        throw new Error("Password must contain uppercase, lowercase, number and special character");
     }
 };
 
 const validateEditProfileData = (req) => {
+    const allowedEditFields = [
+        "firstName", "lastName", "photoUrl",
+        "gender", "age", "about", "skills"
+    ];
 
-    const allowedEditFields = ["firstName", "lastName", "emailId", "photoUrl", "gender", "age", "about", "skills"];
-
-    const isEditAllowed = Object.keys(req.body).every((field) => allowedEditFields.includes(field));
-
+    const isEditAllowed = Object.keys(req.body).every((field) =>
+        allowedEditFields.includes(field)
+    );
     return isEditAllowed;
 };
 
 const validateEditPasswordData = (req) => {
+    const { currentPassword, newPassword } = req.body;
 
-    const {currentPassword, newPassword} = req.body;
-
-    if(!currentPassword || !newPassword) {
-        throw new Error("Both current password and new password is required");
+    if (!currentPassword || !newPassword) {
+        throw new Error("Both current and new password are required");
     }
-    if(!validator.isStrongPassword(newPassword)) {
-        throw new Error("New password is not strong enough");
+    if (!validator.isStrongPassword(newPassword)) {
+        throw new Error("Password must contain uppercase, lowercase, number and special character");
     }
-    if(currentPassword === newPassword) {
-        throw new Error("New password must be different from Current password");
+    if (currentPassword === newPassword) {
+        throw new Error("New password must be different from current password");
     }
     return true;
-}
+};
 
 module.exports = {
     validateSignUpData,
     validateEditProfileData,
-    validateEditPasswordData
+    validateEditPasswordData,
 };

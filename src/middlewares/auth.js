@@ -7,9 +7,9 @@ const userAuth = async (req, res, next) =>{
             throw new Error("Invalid token !!!");
         }
         //* Validate token
-        const decoded = jwt.verify(token, "Suyash!001$");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const { _id } = decoded;
-        const user = await User.findById(_id).select("-password");
+        const user = await User.findById(_id);
 
         if (!user) {
             throw new Error("User not found");
