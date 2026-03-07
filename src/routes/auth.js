@@ -7,7 +7,7 @@ const User = require("../models/user");
 //* Signup Controller
 authRouter.post("/signup", async (req, res) => {
     try {
-        // 1. Validate signup data
+        //* 1. Validate signup data
         validateSignUpData(req);
 
         const { firstName, lastName, emailId, password } = req.body;
@@ -75,11 +75,11 @@ authRouter.post("/login", async (req, res) => {
         }
 
         //* 2. Find user
-const user = await User.findOne({ emailId }).select("+password");
+        const user = await User.findOne({ emailId }).select("+password");
         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid credentials",  // never reveal if email exists
+                message: "Invalid credentials",  //! never reveal if email exists
             });
         }
 
@@ -88,7 +88,7 @@ const user = await User.findOne({ emailId }).select("+password");
         if (!isPasswordValid) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid credentials",  // same message for security
+                message: "Invalid credentials",  //! same message for security
             });
         }
 
@@ -96,8 +96,8 @@ const user = await User.findOne({ emailId }).select("+password");
         const token = await user.getJWT();
          //* Add token to the cookies and send the responce back to the server
         res.cookie("token", token, {
-            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-            httpOnly: true,   // prevents XSS attacks
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //! 7 days
+            httpOnly: true,
         });
 
         return res.status(200).json({

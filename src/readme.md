@@ -181,3 +181,26 @@
     - What is the advantages an disadvantages of creating of indexes in db
 
 - Write code for proper validations for POST /request/review/:status/:requestId
+
+- Write code for /user/requests/received
+  .  Returns all PENDING (interested) connection requests sent TO the logged-in user
+
+- Write code for /user/connections
+  . Returns all ACCEPTED connections (both sent and received) for the logged-in user
+
+- Write code for /user/feed
+  . (excludes: self, already sent/received requests, existing connections)
+
+- Understanding of  skip() and limit() methods for Pagination
+
+NOTES: 
+
+ /feed?page=1&limit=10 => 1-10 => .skip(0) & .limit(10)
+
+ /feed?page=2&limit=10 => 11-20 => .skip(10) & .limit(10)
+
+ /feed?page=3&limit=10 => 21-30 => .skip(20) & .limit(10)
+
+ /feed?page=4&limit=10 => 21-30 => .skip(20) & .limit(10)
+
+skip = (page-1)*limit; // count of skip

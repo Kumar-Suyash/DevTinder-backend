@@ -7,10 +7,9 @@ const User = require("../models/user");
 //* Fields to expose from User documents
 const USER_SAFE_DATA = ["firstName", "lastName", "photoUrl", "about", "age", "gender"];
 
-// ─────────────────────────────────────────────
-//  GET /user/requests/received
-//  Returns all PENDING (interested) connection requests sent TO the logged-in user
-// ─────────────────────────────────────────────
+
+//* GET /user/requests/received
+//*  Returns all PENDING (interested) connection requests sent TO the logged-in user
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
@@ -43,10 +42,9 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   }
 });
 
-// ─────────────────────────────────────────────
-//  GET /user/connections
-//  Returns all ACCEPTED connections (both sent and received) for the logged-in user
-// ─────────────────────────────────────────────
+
+//*  GET /user/connections
+//*  Returns all ACCEPTED connections (both sent and received) for the logged-in user
 userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
@@ -60,6 +58,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     })
       .populate("fromUserId", USER_SAFE_DATA)
       .populate("toUserId", USER_SAFE_DATA);
+     
 
     //* Extract only the "other" person from each connection (not the logged-in user)
     const connections = connectionRequests.map((connection) => {
@@ -84,17 +83,16 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
   }
 });
 
-// ─────────────────────────────────────────────
-//  GET /user/feed
-//  Returns paginated profiles of users the logged-in user has NOT interacted with
-//  (excludes: self, already sent/received requests, existing connections)
-// ─────────────────────────────────────────────
+
+//* GET /user/feed
+//* Returns paginated profiles of users the logged-in user has NOT interacted with
+//* (excludes: self, already sent/received requests, existing connections)
 userRouter.get("/user/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
     //* Pagination params from query string (e.g. /user/feed?page=2&limit=10)
-    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const page = Math.max(parseInt(req.query.page) || 1, 1);   //* first 1 - no page param pass and second for fallback to 1
     const limit = Math.min(parseInt(req.query.limit) || 10, 50); //* cap at 50
     const skip = (page - 1) * limit;
 
@@ -134,6 +132,7 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       count: feedUsers.length,
       data: feedUsers,
     });
+
   } catch (err) {
     console.error("getFeed error:", err);
     return res.status(500).json({
