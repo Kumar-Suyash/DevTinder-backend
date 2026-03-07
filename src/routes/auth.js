@@ -12,7 +12,7 @@ authRouter.post("/signup", async (req, res) => {
 
         const { firstName, lastName, emailId, password } = req.body;
 
-        // 2. Check if user already exists
+        //* 2. Check if user already exists
         const existingUser = await User.findOne({ emailId });
         if (existingUser) {
             return res.status(400).json({
@@ -21,10 +21,10 @@ authRouter.post("/signup", async (req, res) => {
             });
         }
 
-        // 3. Encrypt the password
+        //* 3. Encrypt the password
         const passwordHash = await bcrypt.hash(password, 10); //* 10 is salt value here
 
-        // 4. Create and save user
+        //* 4. Create and save user
         const user = new User({
             firstName,
             lastName,
@@ -34,10 +34,10 @@ authRouter.post("/signup", async (req, res) => {
 
         const savedUser = await user.save();
 
-        // 5. Generate JWT and set cookie on signup
+        //* 5. Generate JWT and set cookie on signup
         const token = await savedUser.getJWT();
         res.cookie("token", token, {
-            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //* 7 days
             httpOnly: true, 
         });
 
@@ -66,7 +66,7 @@ authRouter.post("/login", async (req, res) => {
     try {
         const { emailId, password } = req.body;
 
-        // 1. Basic field validation
+        //* 1. Basic field validation
         if (!emailId || !password) {
             return res.status(400).json({
                 success: false,
@@ -74,7 +74,7 @@ authRouter.post("/login", async (req, res) => {
             });
         }
 
-        // 2. Find user
+        //* 2. Find user
 const user = await User.findOne({ emailId }).select("+password");
         if (!user) {
             return res.status(401).json({
@@ -83,7 +83,7 @@ const user = await User.findOne({ emailId }).select("+password");
             });
         }
 
-        // 3. Validate password
+        //* 3. Validate password
         const isPasswordValid = await user.validatePassword(password);
         if (!isPasswordValid) {
             return res.status(401).json({
@@ -92,7 +92,7 @@ const user = await User.findOne({ emailId }).select("+password");
             });
         }
 
-        // 4. Generate JWT and set cookie
+        //* 4. Generate JWT and set cookie
         const token = await user.getJWT();
          //* Add token to the cookies and send the responce back to the server
         res.cookie("token", token, {

@@ -14,7 +14,7 @@ requestRoutes.post(
       const fromUserId = req.user._id;
       const { toUserId, status } = req.params;
 
-      // 1. Validate status
+      //* 1. Validate status
       const allowedStatus = ["interested", "ignored"];
 
       if (!allowedStatus.includes(status)) {
@@ -24,7 +24,7 @@ requestRoutes.post(
         });
       }
 
-      // 2. Validate toUserId format
+      //* 2. Validate toUserId format
       if (!mongoose.Types.ObjectId.isValid(toUserId)) {
         return res.status(400).json({
           success: false,
@@ -32,7 +32,7 @@ requestRoutes.post(
         });
       }
 
-      // 4. Check if toUserId actually exists in DB
+      //* 4. Check if toUserId actually exists in DB
       const toUser = await User.findById(toUserId);
       if (!toUser) {
         return res.status(404).json({
@@ -41,7 +41,7 @@ requestRoutes.post(
         });
       }
 
-      // 5. Check for existing request (both directions)
+      //* 5. Check for existing request (both directions)
       const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
           { fromUserId, toUserId },
@@ -55,7 +55,7 @@ requestRoutes.post(
         });
       }
 
-      // 6. Create and save the request
+      //* 6. Create and save the request
       const connectionRequest = new ConnectionRequest({
         fromUserId,
         toUserId,
@@ -88,7 +88,7 @@ requestRoutes.post(
       const loggedInUser = req.user;
       const { status, requestId } = req.params;
 
-      // 1. Validate status
+      //* 1. Validate status
       const allowedStatus = ["accepted", "rejected"];
       if (!allowedStatus.includes(status)) {
         return res.status(400).json({
@@ -97,7 +97,7 @@ requestRoutes.post(
         });
       }
 
-      // 2. Validate requestId is a valid ObjectId
+      //* 2. Validate requestId is a valid ObjectId
       if (!mongoose.Types.ObjectId.isValid(requestId)) {
         return res.status(400).json({
           success: false,
@@ -105,14 +105,14 @@ requestRoutes.post(
         });
       }
 
-      // 3. Find the connection request with all conditions
+      //* 3. Find the connection request with all conditions
       const connectionRequest = await ConnectionRequest.findOne({
         _id: requestId,
-        toUserId: loggedInUser._id,   // logged-in user must be the RECEIVER
-        status: "interested",          // can only review pending requests
+        toUserId: loggedInUser._id,   //? logged-in user must be the RECEIVER
+        status: "interested",          //? can only review pending requests
       });
 
-      // 4. Handle not found (covers: wrong id, wrong user, already reviewed)
+      //* 4. Handle not found (covers: wrong id, wrong user, already reviewed)
       if (!connectionRequest) {
         return res.status(404).json({
           success: false,
@@ -120,7 +120,7 @@ requestRoutes.post(
         });
       }
 
-      // 5. Update and save
+      //* 5. Update and save
       connectionRequest.status = status;
       const data = await connectionRequest.save();
 
@@ -131,7 +131,7 @@ requestRoutes.post(
       });
 
     } catch (err) {
-      // 6. Catch unexpected errors
+      //* 6. Catch unexpected errors
       console.error("reviewConnectionRequest error:", err);
       return res.status(500).json({
         success: false,
